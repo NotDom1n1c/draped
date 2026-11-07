@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Draped</title>
+  <meta name="description" content="Five sheets of shot silk. Scroll to pull them away, one at a time." />
+  <meta name="theme-color" content="#0b1533" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --ui: rgba(255, 250, 240, .84); --ui-dim: rgba(255, 250, 240, .5); }
+    body[data-tone="dark"] { --ui: rgba(24, 18, 10, .86); --ui-dim: rgba(24, 18, 10, .5); }
+    * { box-sizing: border-box; }
+    html { scroll-snap-type: y mandatory; background: #0b1533; }
+    body { margin: 0; color: var(--ui); font: 400 12px/1.4 "DM Mono", ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; -webkit-font-smoothing: antialiased; }
+    canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+    main section { height: 100vh; height: 100svh; scroll-snap-align: start; scroll-snap-stop: always; }
+    .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    .ui { position: fixed; left: 0; right: 0; z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
+          padding: 22px clamp(16px, 3vw, 34px); pointer-events: none; transition: color .5s ease; }
+    .top { top: 0; align-items: flex-start; }
+    .bottom { bottom: 0; }
+    .mark { font-weight: 500; }
+    .count b { font-weight: 500; }
+    .count span { color: var(--ui-dim); transition: color .5s ease; }
+    #kind { display: block; color: var(--ui-dim); margin-top: 4px; transition: color .5s ease; }
+    #hint { pointer-events: auto; background: none; border: 0; padding: 0; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; cursor: default; }
+    #hint.back { cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+
+    .ticks { position: fixed; right: clamp(10px, 2vw, 26px); top: 50%; transform: translateY(-50%); z-index: 2; display: grid; gap: 4px; }
+    .ticks button { width: 28px; height: 22px; border: 0; padding: 0; background: none; cursor: pointer; position: relative; }
+    .ticks button::after { content: ""; position: absolute; right: 4px; top: 50%; height: 1px; width: 10px; background: var(--ui-dim); transition: width .35s ease, background-color .5s ease; }
+    .ticks button.on::after { width: 20px; background: var(--ui); }
+    .ticks button:focus-visible { outline: 1px solid var(--ui); outline-offset: 2px; }
+
+    /* without WebGL 2 the words are simply shown on coloured panels */
+    .no-gl canvas, .no-gl .ticks { display: none; }
+    .no-gl main section { display: grid; place-content: center; text-align: center; padding: 24px; }
+    .no-gl main section .sr { position: static; width: auto; height: auto; clip: auto; white-space: normal; overflow: visible; }
+    .no-gl main h1, .no-gl main h2 { font: italic 700 clamp(48px, 10vw, 140px)/1 "Bodoni Moda", serif; letter-spacing: 0; text-transform: none; margin: 0 0 12px; }
+    .no-gl section:nth-child(1) { background: #0b1533; } .no-gl section:nth-child(2) { background: #42070f; }
+    .no-gl section:nth-child(3) { background: #b8955c; color: #1c1206; } .no-gl section:nth-child(4) { background: #053328; }
+    .no-gl section:nth-child(5) { background: #e9e4da; color: #151413; }
+    @media (max-width: 560px) { body { font-size: 10.5px; } .ticks { display: none; } }
+  </style>
+</head>
+<body data-tone="light">
+  <canvas id="c" aria-hidden="true"></canvas>
+
+  <header class="ui top" aria-hidden="true">
+    <span class="mark">Draped</span>
+    <span class="count"><b id="n">01</b><span> / 05</span></span>
+  </header>
+  <nav class="ticks" aria-label="Sheets">
+    <button type="button" class="on" aria-label="Sheet 1, Midnight"></button>
+    <button type="button" aria-label="Sheet 2, Cinnabar"></button>
+    <button type="button" aria-label="Sheet 3, Champagne"></button>
+    <button type="button" aria-label="Sheet 4, Jade"></button>
+    <button type="button" aria-label="Sheet 5, Ivory"></button>
+  </nav>
+  <footer class="ui bottom">
+    <div aria-hidden="true"><span id="name">Midnight</span><span id="kind">Shot silk, violet weft</span></div>
+    <button id="hint" type="button" tabindex="-1">Scroll to pull the sheet</button>
+  </footer>
+
+  <main>
+    <section><div class="sr"><h1>Draped</h1><p>Five sheets of silk. Pull them away, one by one.</p></div></section>
+    <section><div class="sr"><h2>Every surface remembers</h2><p>The hand that moved it.</p></div></section>
+    <section><div class="sr"><h2>Light is the only pattern</h2><p>There is no print in the folds, only light.</p></div></section>
+    <section><div class="sr"><h2>Nothing stays folded</h2><p>Sooner or later everything is pulled open.</p></div></section>
+    <section><div class="sr"><h2>Draped.</h2><p>Five sheets, one shader, no photographs. A design study, 2026.</p></div></section>
+  </main>
+
+  <script src="app.js?v=6"></script>
+</body>
+</html>
